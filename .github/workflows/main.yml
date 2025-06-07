@@ -13,22 +13,27 @@ jobs:
     - name: Checkout source
       uses: actions/checkout@v3
 
-    - name: Download agondev toolchain
+    - name: Download Agon toolchain v0.16
       run: |
         curl -sL -o agondev.tar.gz https://github.com/AgonPlatform/agondev/releases/download/v0.16/agondev-linux-x64.tar.gz
-    
-        # Confirm it's not an HTML page or error file
-        file agondev.tar.gz
-    
-        # Extract it
+
+        # Verify it's actually a gzip archive
+        file agondev.tar.gz | grep 'gzip compressed data' || {
+          echo "ERROR: Downloaded file is not a gzip archive.";
+          exit 1;
+        }
+
+        # Extract it to ./agondev
         mkdir agondev
         tar -xzf agondev.tar.gz -C agondev
+
+        # Add toolchain binaries to PATH
         echo "$PWD/agondev/release/bin" >> $GITHUB_PATH
 
-    - name: Build project
+    - name: Build BannerLogo
       run: make
 
-    - name: Upload binary artifact
+    - name: Upload .bin artifact
       uses: actions/upload-artifact@v4
       with:
         name: bannerlogo-bin
