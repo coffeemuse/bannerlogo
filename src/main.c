@@ -94,6 +94,13 @@ void itoa(uint16_t value, char *str)
     str[i] = '\0';
 }
 
+
+uint8_t getgraphmode() {
+    static volatile SYSVAR *sv = NULL;
+    if (!sv) sv = vdp_vdu_init();
+    return sv->scrMode;
+}
+
 int main(int argc, char *argv[])
 {
 
@@ -147,7 +154,9 @@ int main(int argc, char *argv[])
     putch(217);
     putch(218);
     // Note: getsysvar_scrMode() is not implemented in the current API.
-    mos_putstr(" Screen Mode: [missing getsysvar_scrMode()]\r\n");
+    mos_putstr(" Screen Mode: ");
+    putint(getgraphmode());
+    mos_putstr("\r\n");
 
     putch(219);
     putch(220);
