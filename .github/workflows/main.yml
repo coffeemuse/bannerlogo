@@ -23,29 +23,17 @@ jobs:
           exit 1
         }
 
-        mkdir agondev
-        tar -xzf agondev.tar.gz -C agondev
+        tar -xzf agondev.tar.gz
 
-        echo "Toolchain extracted. Contents of agondev/release/bin:"
-        ls -l agondev/release/bin
-
+        echo "Toolchain extracted. Contents of release/bin:"
+        ls -l release/bin
+        
     - name: Build BannerLogo
       run: |
         echo "CWD is: $PWD"
-        echo "PATH before update: $PATH"
-        export PATH="$PWD/agondev/release/bin:$PATH"
-        echo "PATH after update: $PATH"
-
-        echo "Checking agondev-config in PATH:"
+        export PATH="$PWD/release/bin:$PATH"
         which agondev-config || echo "❌ agondev-config not found"
-
-        echo "Checking if agondev-config exists in bin folder:"
-        ls -l agondev/release/bin/agondev-config || echo "❌ agondev-config missing"
-
-        echo "Trying to invoke agondev-config manually:"
-        ./agondev/release/bin/agondev-config --version || echo "❌ Failed to run"
-
-        echo "Running make:"
+        ./release/bin/agondev-config --version || echo "❌ Failed to run"
         make
 
     - name: Upload .bin artifact
