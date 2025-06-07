@@ -1,0 +1,46 @@
+# Compiled object files
+*.o
+*.obj
+
+# Precompiled Headers
+*.gch
+*.pch
+
+# Compiled Dynamic libraries
+*.so
+*.dylib
+*.dll
+
+# Compiled Static libraries
+*.a
+*.lib
+
+# Executables
+*.out
+*.bin
+
+# Debug files
+*.dSYM/
+*.stackdump
+
+# VS Code settings
+.vscode/
+
+# Build directories
+/bin/
+/obj/
+
+# Backup files
+*~
+*.bak
+*.swp
+
+# Logs
+*.log
+
+# map files
+*.map
+
+# Other system files
+.DS_Store
+Thumbs.db
