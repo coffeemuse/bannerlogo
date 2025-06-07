@@ -32,6 +32,7 @@ jobs:
     - name: Build BannerLogo
       run: |
         export PATH="$PWD/agondev/release/bin:$PATH"
+        cd src
         make
 
     - name: Upload .bin artifact
