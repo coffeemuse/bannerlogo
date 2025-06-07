@@ -27,7 +27,7 @@ jobs:
         tar -xzf agondev.tar.gz -C agondev
 
         # Add toolchain binaries to PATH
-        echo "$PWD/agondev/release/bin" >> $GITHUB_PATH
+        export PATH="$PWD/agondev/release/bin:$PATH"
 
     - name: Build BannerLogo
       run: make
