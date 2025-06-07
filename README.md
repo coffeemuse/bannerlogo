@@ -10,7 +10,6 @@ Initially this project was just a quick playground to test the new [agondev C/C+
 - Custom font/logo rendering using Agon VDP
 - Displays system information (screen mode, text/graphics resolution, color count)
 - Optional color swatch display if no arguments are given
-- Demonstrates double-buffered framebuffer handling
 - Clean, well-commented code for educational use
 
 ## Screenshot
@@ -47,7 +46,7 @@ To run the program, copy the binary to your AgonLight system or use an emulator 
 ## Learning More
 
 - See [`src/main.c`](src/main.c) for the main program logic and comments.
-- The code demonstrates custom font loading, querying system variables, and handling both single and double-buffered modes.
+- The code demonstrates custom font loading and querying system variables.
 - Contributions and suggestions are welcome!
 
 ## License
