@@ -15,24 +15,37 @@ jobs:
 
     - name: Download Agon toolchain v0.16
       run: |
-        curl -sL -o agondev.tar.gz https://github.com/AgonPlatform/agondev/releases/download/v0.16/agondev-linux_x86_64.tar.gz
-        # Verify it's actually a gzip archive
+        echo "CWD is: $PWD"
+        curl -sL -o agondev.tar.gz https://github.com/AgonPlatform/agondev/releases/download/v0.16/agondev-linux-x64.tar.gz
+
         file agondev.tar.gz | grep 'gzip compressed data' || {
-          echo "ERROR: Downloaded file is not a gzip archive.";
-          exit 1;
+          echo "ERROR: Downloaded file is not a gzip archive."
+          exit 1
         }
 
-        # Extract it to ./agondev
         mkdir agondev
         tar -xzf agondev.tar.gz -C agondev
 
-        # Add toolchain binaries to PATH
-        export PATH="$PWD/agondev/release/bin:$PATH"
+        echo "Toolchain extracted. Contents of agondev/release/bin:"
+        ls -l agondev/release/bin
 
     - name: Build BannerLogo
       run: |
+        echo "CWD is: $PWD"
+        echo "PATH before update: $PATH"
         export PATH="$PWD/agondev/release/bin:$PATH"
-        cd src
+        echo "PATH after update: $PATH"
+
+        echo "Checking agondev-config in PATH:"
+        which agondev-config || echo "❌ agondev-config not found"
+
+        echo "Checking if agondev-config exists in bin folder:"
+        ls -l agondev/release/bin/agondev-config || echo "❌ agondev-config missing"
+
+        echo "Trying to invoke agondev-config manually:"
+        ./agondev/release/bin/agondev-config --version || echo "❌ Failed to run"
+
+        echo "Running make:"
         make
 
     - name: Upload .bin artifact
