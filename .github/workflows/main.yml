@@ -16,7 +16,7 @@ jobs:
     - name: Download Agon toolchain v0.16
       run: |
         echo "CWD is: $PWD"
-        curl -sL -o agondev.tar.gz https://github.com/AgonPlatform/agondev/releases/download/v0.16/agondev-linux-x64.tar.gz
+        curl -sL -o agondev.tar.gz https://github.com/AgonPlatform/agondev/releases/download/v0.16/agondev-linux_x86_64.tar.gz
 
         file agondev.tar.gz | grep 'gzip compressed data' || {
           echo "ERROR: Downloaded file is not a gzip archive."
