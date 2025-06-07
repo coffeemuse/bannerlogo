@@ -133,18 +133,22 @@ int main(int argc, char *argv[])
     }
 
     // Print logo lines using custom bitmap characters
+
+    // Line 1
     putch(' ');
     putch(' ');
     putch(200);
     putch(201);
     mos_putstr("  Agon Light 2 with Zilog eZ80 CPU\r\n");
 
+    // Line 2
     putch(' ');
     putch(' ');
     putch(202);
     putch(203);
     mos_putstr("  CoffeeMuse's c port\r\n");
 
+    // Line 3
     putch(' ');
     putch(204);
     putch(205);
@@ -152,6 +156,7 @@ int main(int argc, char *argv[])
     putch(207);
     mos_putstr("\r\n");
 
+    // Line 4
     putch(208);
     putch(209);
     putch(210);
@@ -160,6 +165,7 @@ int main(int argc, char *argv[])
     putch(213);
     mos_putstr("\r\n");
 
+    // Line 5
     putch(214);
     putch(215);
     putch(216);
@@ -170,43 +176,44 @@ int main(int argc, char *argv[])
     putint(getgraphmode());
     mos_putstr("\r\n");
 
+    // Line 6
     putch(219);
     putch(220);
     putch(221);
     putch(222);
     putch(223);
     putch(224);
-
     mos_putstr("        Text: ");
     putint(getsysvar_scrCols());
     mos_putstr(" x ");
     putint(getsysvar_scrRows());
     mos_putstr("\r\n");
 
+    // Line 7
     putch(225);
     putch(226);
     putch(227);
     putch(228);
     putch(229);
     putch(230);
-
     mos_putstr("    Graphics: ");
     putint(getsysvar_scrwidth());
     mos_putstr(" x ");
     putint(getsysvar_scrheight());
     mos_putstr("\r\n");
 
+    // Line 8
     putch(231);
     putch(232);
     putch(233);
     putch(234);
     putch(235);
     putch(236);
-
     mos_putstr("     Colours: ");
     putint(getsysvar_scrColours());
     mos_putstr("\r\n");
 
+    // Line 9 (optional)
     // Show color swatch if no arguments are given
     bool show_colors = (argc <= 1);
     if (show_colors)
