@@ -13,27 +13,28 @@ jobs:
     - name: Checkout source
       uses: actions/checkout@v3
 
-    - name: Download Agon toolchain v0.16
+    - name: Download and extract Agon toolchain
       run: |
         echo "CWD is: $PWD"
-        curl -sL -o agondev.tar.gz https://github.com/AgonPlatform/agondev/releases/download/v0.16/agondev-linux_x86_64.tar.gz
+        curl -sL -o agondev.tar.gz \
+          https://github.com/AgonPlatform/agondev/releases/download/v0.16/agondev-linux_x86_64.tar.gz
 
         file agondev.tar.gz | grep 'gzip compressed data' || {
-          echo "ERROR: Downloaded file is not a gzip archive."
-          exit 1
+          echo "ERROR: Downloaded file is not a gzip archive.";
+          exit 1;
         }
 
         tar -xzf agondev.tar.gz
 
-        echo "Toolchain extracted. Contents of release/bin:"
-        ls -l release/bin
-        
+        echo "Contents of ./agondev/release/bin:"
+        ls -l ./agondev/release/bin
+
     - name: Build BannerLogo
       run: |
-        echo "CWD is: $PWD"
-        export PATH="$PWD/release/bin:$PATH"
+        export PATH="$PWD/agondev/release/bin:$PATH"
         which agondev-config || echo "❌ agondev-config not found"
-        ./release/bin/agondev-config --version || echo "❌ Failed to run"
+        agondev-config --version || echo "❌ Failed to run"
+
         make
 
     - name: Upload .bin artifact
