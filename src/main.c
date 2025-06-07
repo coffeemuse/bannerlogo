@@ -11,6 +11,7 @@
  */
 
 #include <stdint.h>
+#include <stdbool.h>
 #include <mos_api.h>
 #include <agon/vdp_vdu.h>
 
@@ -72,6 +73,11 @@ static const uint8_t logo_font_data[LOGO_FONT_COUNT][8] = {
 
 };
 
+/**
+ * Converts an unsigned integer to a string.
+ * @param value The integer value to convert.
+ * @param str The output buffer (must be at least 6 bytes).
+ */
 void itoa(uint16_t value, char *str)
 {
     char tmp[6];
@@ -87,6 +93,7 @@ void itoa(uint16_t value, char *str)
         tmp[i++] = '0' + (value % 10);
         value /= 10;
     }
+    // Reverse the string
     for (int j = 0; j < i; j++)
     {
         str[j] = tmp[i - j - 1];
@@ -94,17 +101,24 @@ void itoa(uint16_t value, char *str)
     str[i] = '\0';
 }
 
-
+/**
+ * Returns the current graphics (screen) mode.
+ */
 uint8_t getgraphmode() {
     static volatile SYSVAR *sv = NULL;
     if (!sv) sv = vdp_vdu_init();
     return sv->scrMode;
 }
 
+/**
+ * Main entry point.
+ * - Redefines custom font characters for the logo.
+ * - Prints the logo and system information.
+ * - Optionally displays a color swatch if no arguments are given.
+ */
 int main(int argc, char *argv[])
 {
-
-    // redfine characters
+    // redefine characters for the logo font
     for (uint8_t i = 0; i < LOGO_FONT_COUNT; i++)
     {
         vdp_redefine_character(
@@ -119,7 +133,7 @@ int main(int argc, char *argv[])
             logo_font_data[i][7]);
     }
 
-    // Print logo lines
+    // Print logo lines using custom bitmap characters
     putch(' ');
     putch(' ');
     putch(200);
@@ -153,7 +167,6 @@ int main(int argc, char *argv[])
     putch(209);
     putch(217);
     putch(218);
-    // Note: getsysvar_scrMode() is not implemented in the current API.
     mos_putstr(" Screen Mode: ");
     putint(getgraphmode());
     mos_putstr("\r\n");
@@ -195,6 +208,7 @@ int main(int argc, char *argv[])
     putint(getsysvar_scrColours());
     mos_putstr("\r\n");
 
+    // Show color swatch if no arguments are given
     bool show_colors = (argc <= 1);
     if (show_colors)
     {
@@ -207,13 +221,10 @@ int main(int argc, char *argv[])
         putch('\n');
     }
 
-    // Swap buffers / reset font
-    putch(23);
-    putch(0);
-    putch(0xC3);
-    putch(23);
-    putch(0);
-    putch(0xC3);
+    // Swap buffers / reset font (VDP control codes)
+    // This ensures the custom font is displayed correctly
+    vdp_swap();
+    vdp_swap();
 
     return 0;
 }
