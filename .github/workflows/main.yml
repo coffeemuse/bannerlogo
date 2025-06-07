@@ -15,26 +15,13 @@ jobs:
 
     - name: Download and extract Agon toolchain
       run: |
-        echo "CWD is: $PWD"
         curl -sL -o agondev.tar.gz \
           https://github.com/AgonPlatform/agondev/releases/download/v0.16/agondev-linux_x86_64.tar.gz
-
-        file agondev.tar.gz | grep 'gzip compressed data' || {
-          echo "ERROR: Downloaded file is not a gzip archive.";
-          exit 1;
-        }
-
         tar -xzf agondev.tar.gz
 
-        echo "Contents of ./agondev/release/bin:"
-        ls -l ./agondev/release/bin
-
-    - name: Build BannerLogo
+    - name: Build Agon App
       run: |
         export PATH="$PWD/agondev/release/bin:$PATH"
-        which agondev-config || echo "❌ agondev-config not found"
-        agondev-config --version || echo "❌ Failed to run"
-
         make
 
     - name: Upload .bin artifact
