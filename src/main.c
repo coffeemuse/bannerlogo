@@ -19,6 +19,15 @@
 #define COLOR_SWATCH_CHAR 238
 #define COLOR_COUNT 32
 
+#define mos_putstr(s) mos_puts((char *)(s), 0, 0)
+#define putint(x)         \
+    do                    \
+    {                     \
+        char _buf[6];     \
+        itoa((x), _buf);  \
+        mos_putstr(_buf); \
+    } while (0)
+
 // Custom font bitmaps for characters 200..238
 static const uint8_t logo_font_data[LOGO_FONT_COUNT][8] = {
     {7, 15, 31, 31, 31, 31, 31, 63},
@@ -108,20 +117,20 @@ int main(int argc, char *argv[])
     putch(' ');
     putch(200);
     putch(201);
-    mos_puts("  Agon Light 2 with Zilog eZ80 CPU\r\n", 0, '\0');
+    mos_putstr("  Agon Light 2 with Zilog eZ80 CPU\r\n");
 
     putch(' ');
     putch(' ');
     putch(202);
     putch(203);
-    mos_puts("  CoffeeMuse's c port\r\n", 0, '\0');
+    mos_putstr("  CoffeeMuse's c port\r\n");
 
     putch(' ');
     putch(204);
     putch(205);
     putch(206);
     putch(207);
-    mos_puts("\r\n", 0, '\0');
+    mos_putstr("\r\n");
 
     putch(208);
     putch(209);
@@ -129,7 +138,7 @@ int main(int argc, char *argv[])
     putch(211);
     putch(212);
     putch(213);
-    mos_puts("\r\n", 0, '\0');
+    mos_putstr("\r\n");
 
     putch(214);
     putch(215);
@@ -138,7 +147,7 @@ int main(int argc, char *argv[])
     putch(217);
     putch(218);
     // Note: getsysvar_scrMode() is not implemented in the current API.
-    mos_puts(" Screen Mode: [missing getsysvar_scrMode()]\r\n", 0, '\0');
+    mos_putstr(" Screen Mode: [missing getsysvar_scrMode()]\r\n");
 
     putch(219);
     putch(220);
@@ -147,15 +156,11 @@ int main(int argc, char *argv[])
     putch(223);
     putch(224);
 
-    char cols_str[6], rows_str[6];
-    itoa(getsysvar_scrCols(), cols_str);
-    itoa(getsysvar_scrRows(), rows_str);
-
-    mos_puts("        Text: ", 0, 0);
-    mos_puts(cols_str, 0, 0);
-    mos_puts(" x ", 0, 0);
-    mos_puts(rows_str, 0, 0);
-    mos_puts("\r\n", 0, 0);
+    mos_putstr("        Text: ");
+    putint(getsysvar_scrCols());
+    mos_putstr(" x ");
+    putint(getsysvar_scrRows());
+    mos_putstr("\r\n");
 
     putch(225);
     putch(226);
@@ -164,14 +169,11 @@ int main(int argc, char *argv[])
     putch(229);
     putch(230);
 
-    char width_str[6], height_str[6];
-    itoa(getsysvar_scrwidth(), width_str);
-    itoa(getsysvar_scrheight(), height_str);
-    mos_puts("    Graphics: ", 0, 0);
-    mos_puts(width_str, 0, 0);
-    mos_puts(" x ", 0, 0);
-    mos_puts(height_str, 0, 0);
-    mos_puts("\r\n", 0, 0);
+    mos_putstr("    Graphics: ");
+    putint(getsysvar_scrwidth());
+    mos_putstr(" x ");
+    putint(getsysvar_scrheight());
+    mos_putstr("\r\n");
 
     putch(231);
     putch(232);
@@ -180,11 +182,9 @@ int main(int argc, char *argv[])
     putch(235);
     putch(236);
 
-    char colours_str[6];
-    itoa(getsysvar_scrColours(), colours_str);
-    mos_puts("     Colours: ", 0, 0);
-    mos_puts(colours_str, 0, 0);
-    mos_puts("\r\n", 0, 0);
+    mos_putstr("     Colours: ");
+    putint(getsysvar_scrColours());
+    mos_putstr("\r\n");
 
     bool show_colors = (argc <= 1);
     if (show_colors)
