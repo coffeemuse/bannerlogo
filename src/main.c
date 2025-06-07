@@ -18,7 +18,6 @@
 #define LOGO_FONT_START 200
 #define LOGO_FONT_COUNT 39
 #define COLOR_SWATCH_CHAR 238
-#define COLOR_COUNT 32
 
 #define mos_putstr(s) mos_puts((char *)(s), 0, 0)
 #define putint(x)         \
@@ -212,7 +211,8 @@ int main(int argc, char *argv[])
     bool show_colors = (argc <= 1);
     if (show_colors)
     {
-        for (uint8_t c = 0; c < COLOR_COUNT; c++)
+        uint8_t color_count = getsysvar_scrColours();
+        for (uint8_t c = 0; c < color_count; c++)
         {
             vdp_set_text_colour(c);
             putch(COLOR_SWATCH_CHAR);
