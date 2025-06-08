@@ -103,6 +103,8 @@ void itoa(uint16_t value, char *str)
 /**
  * Returns the current graphics (screen) mode.
  */
+
+ // Thanks to @andromeda for suggesting this solution to obtain the screen mode
 uint8_t getgraphmode() {
     static volatile SYSVAR *sv = NULL;
     if (!sv) sv = vdp_vdu_init();
